@@ -1,5 +1,10 @@
 extends layout
 
+append js
+  script(src="/js/main.js")
+
 block content
-  h1= title
-  p Welcome to #{title}
+  p Looking at the traffic flows API
+
+  pre#results
+
