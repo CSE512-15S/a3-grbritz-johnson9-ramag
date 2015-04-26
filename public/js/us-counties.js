@@ -10,8 +10,19 @@
         'height' : map_height
       });
 
-    d3.json('/datasets/census-maps/county.json', function(err, topology) {
+    // $.get('/datasets/census-maps/county.json', {}, function(data) {
+    //   console.log("data loaded", data);
+    //   $("#results")
+    //     .html(JSON.stringify(data, null, 2));
+    // });
+    // 
+    var path = d3.geo.path();
+
+    d3.json('/datasets/census-maps/us.json', function(err, topology) {
       console.log(topology);
+      d3.select('#results')
+        .text(JSON.stringify(topology, null, 2));
+
       svg.selectAll('path')
          .data(topojson.feature(topology, topology.objects.counties).features)
          .enter()

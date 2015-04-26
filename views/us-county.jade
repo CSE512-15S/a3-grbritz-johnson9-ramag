@@ -4,6 +4,16 @@ append js
   script(src="/js/us-counties.js")
 
 block content
-  p Looking US Counties
-  #map
+  .container-fluid#us-counties
+    h2 The Map
+    .row
+      .col-sm-12
+        #map
+    
+    h2 Topojson structure
+    .row
+      .col-sm-12
+        pre#results    
+
+
 
