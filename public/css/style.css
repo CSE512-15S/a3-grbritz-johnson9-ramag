@@ -13,3 +13,5 @@ a {
     fill: red; }
   #us-counties #map path.selected {
     fill: blue; }
+    #us-counties #map path.selected:hover {
+      fill: red; }

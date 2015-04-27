@@ -21,6 +21,9 @@ a {
 
       &.selected {
         fill: blue;
+        &:hover {
+          fill: red;    
+        }
       }
     }
   }
