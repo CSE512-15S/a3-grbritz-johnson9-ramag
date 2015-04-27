@@ -15,15 +15,12 @@ a {
       stroke: #fff;
       stroke-width: .5px;
     
-      &:hover {
-        fill: red;  
-      }
-
       &.selected {
         fill: blue;
-        &:hover {
-          fill: red;    
-        }
+      }
+
+      &:hover, &.hover {
+        fill: red;  
       }
     }
   }

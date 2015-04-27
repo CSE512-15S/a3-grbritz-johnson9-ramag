@@ -9,9 +9,7 @@ a {
   fill: #ccc;
   stroke: #fff;
   stroke-width: .5px; }
-  #us-counties #map path:hover {
-    fill: red; }
   #us-counties #map path.selected {
     fill: blue; }
-    #us-counties #map path.selected:hover {
-      fill: red; }
+  #us-counties #map path:hover, #us-counties #map path.hover {
+    fill: red; }

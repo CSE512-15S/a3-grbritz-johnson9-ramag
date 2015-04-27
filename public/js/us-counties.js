@@ -29,7 +29,13 @@
 
           return "cid-" + id;
         })
-         .classed('county', true);
+         .classed('county', true)
+         .on('mouseover', function(datum, index) {
+            d3.select(this).classed('hover', true);
+         })
+         .on('mouseout', function(datum, index) {
+            d3.select(this).classed('hover', false);
+         });
     });
   });
 
