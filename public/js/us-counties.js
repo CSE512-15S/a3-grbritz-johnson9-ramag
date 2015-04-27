@@ -21,7 +21,14 @@
          .enter()
          .append('path')
          .attr('d', path)
-         .attr('class', function(d) { return "cid-" + d.id; })
+         .attr('class', function(d) { 
+          var id = d.id + "";
+          while(id.length < 5) {
+            id = "0" + id;
+          }
+
+          return "cid-" + id;
+        })
          .classed('county', true);
     });
   });
