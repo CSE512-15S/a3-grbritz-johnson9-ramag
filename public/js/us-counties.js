@@ -14,7 +14,14 @@
   }
 
   function countyClickHandler (datum, index) {
-    return null;
+    if (! datasetCache['countyDetails']) {
+      console.warn("Clicked on county before data loaded");
+      return;
+    }
+
+    // d3.json('/datasets/')
+
+    stateChart();
   }
 
   function toggleCountyTooltip (countyId, showToolTip) {
@@ -53,7 +60,7 @@
     var path = d3.geo.path();
 
     // Load map tiles
-    d3.json('/datasets/census-maps/us.json', function(err, topology) {
+    d3.json('/datasets/topojson/us.json', function(err, topology) {
 
       svg.selectAll('path')
          .data(topojson.feature(topology, topology.objects.counties).features, 
@@ -77,12 +84,12 @@
     });
 
     // Load county reference details
-    d3.json('/datasets/census-maps/reference/county-codes.json', function(err, countyDetails) {
+    d3.json('/datasets/reference/county-codes.json', function(err, countyDetails) {
       datasetCache['countyDetails'] = countyDetails;
     });
   
     // Load zip code to county reference details & activate search box
-    d3.json('/datasets/census-maps/reference/zip-codes-to-counties.json', 
+    d3.json('/datasets/reference/zip-codes-to-counties.json', 
       function(err, zipCodesToCounties) {
       var searchBox = new SearchBox(zipCodesToCounties);
       
@@ -102,7 +109,7 @@
       var $this = $(this);
       var zipCode = $this.val();
       // Lets not have empty string show map as blue
-      // if (! zipCode) return;
+      if (! zipCode) return;
 
       var matchingZips = self.zipCodesMatchingSubstring(zipCode, Object.keys(self.zipCodesToCounties));
 

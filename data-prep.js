@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var fs = require('fs');
 
-fs.readFile('./public/datasets/census-maps/reference/zips-by_county.json', function(err, fileContents) {
+fs.readFile('./public/datasets/reference/zips-by_county.json', function(err, fileContents) {
   if (err) throw Error(err);
   var countiesToZips = JSON.parse(fileContents);
   writeZipsToFile(zipsToCounties(countiesToZips));
@@ -19,7 +19,7 @@ fs.readFile('./public/datasets/census-maps/reference/zips-by_county.json', funct
 
 
 function writeZipsToFile(zips) {
-  fs.writeFile('./public/datasets/census-maps/reference/zip-codes-to-counties.json', 
+  fs.writeFile('./public/datasets/reference/zip-codes-to-counties.json', 
     JSON.stringify(zips),
     function(err) {
       if (err) throw Error(err);
