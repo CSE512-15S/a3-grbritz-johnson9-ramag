@@ -102,7 +102,7 @@
       var $this = $(this);
       var zipCode = $this.val();
       // Lets not have empty string show map as blue
-      if (! zipCode) return;
+      // if (! zipCode) return;
 
       var matchingZips = self.zipCodesMatchingSubstring(zipCode, Object.keys(self.zipCodesToCounties));
 

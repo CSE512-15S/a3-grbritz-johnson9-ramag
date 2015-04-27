@@ -7,6 +7,17 @@ fs.readFile('./public/datasets/census-maps/reference/zips-by_county.json', funct
   writeZipsToFile(zipsToCounties(countiesToZips));
 });
 
+// fs.readFile('./public/datasets/census-maps/reference/missingCountyToZipcodes.json', function(err, fileContents) {
+//     if (err) throw Error(err);
+//     var countiesToZips = JSON.parse(fileContents);
+//     var transformed = {};
+//     _.each(countiesToZips, function(obj) {
+//       transformed[obj.countyId] = obj.zipCodes;
+//     });
+//     console.log(transformed);
+// });
+
+
 function writeZipsToFile(zips) {
   fs.writeFile('./public/datasets/census-maps/reference/zip-codes-to-counties.json', 
     JSON.stringify(zips),
