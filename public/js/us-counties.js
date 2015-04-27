@@ -21,7 +21,7 @@ function SearchBox (zipCodesToCounties) {
     _.each(zipCodes, function(zipCode) {
       _.each(zipCodesToCounties[zipCode], function(county) {
         // Convert countyid into classname
-        county = ".cid-" + county;
+        county = "#cid-" + county;
         if (! counties.hasOwnProperty(county)) {
           counties[county] = true;
         }
@@ -42,16 +42,23 @@ function SearchBox (zipCodesToCounties) {
 
 
 (function () {
-  var map_width = 960;
+  var map_width = 1024;
   var map_height = 500;
 
-  function countyClass (datum) {
+  var g_zipCodesToCounties;
+
+
+  function countyId (datum) {
     var id = datum.id + "";
     // Make sure that all counties have leading 0's
     while(id.length < 5) {
       id = "0" + id;
     }
     return "cid-" + id;
+  }
+
+  function countyClickHandler (datum, index) {
+    return null;
   }
 
   // "Main" fn; starts after all DOM elements have loaded
@@ -74,14 +81,16 @@ function SearchBox (zipCodesToCounties) {
          .enter()
          .append('path')
          .attr('d', path)
-         .attr('class', countyClass)
+         .attr('id', countyId)
          .classed('county', true)
          .on('mouseover', function(datum, index) {
             d3.select(this).classed('hover', true);
+            // displayCountyTooltip();
          })
          .on('mouseout', function(datum, index) {
             d3.select(this).classed('hover', false);
-         });
+         })
+         .on('click', countyClickHandler);
     });
   });
 
@@ -89,11 +98,13 @@ function SearchBox (zipCodesToCounties) {
 
   d3.json('/datasets/census-maps/reference/zip-codes-to-counties.json', 
     function(err, zipCodesToCounties) {
-    
     var searchBox = new SearchBox(zipCodesToCounties);
-
-    
+    g_zipCodesToCounties = zipCodesToCounties;
   });
+
+
+
+
 
   
 })();
