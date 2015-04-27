@@ -5,15 +5,13 @@ append js
 
 block content
   .container-fluid#us-counties
-    h2 The Map
+    h2 US County Map
     .row
       .col-sm-12
         #map
     
-    h2 Data Questions
-    .row
+    .row.controls-wrapper
       .col-sm-12
-        pre#results  
-
-
-
+        label 
+          strong Highlight counties containing zip code: 
+          input(name="zip-code-filter", placeholder="try typing 98015")

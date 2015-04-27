@@ -14,11 +14,37 @@
     d3.json('/datasets/census-maps/us.json', function(err, topology) {
 
       svg.selectAll('path')
-         .data(topojson.feature(topology, topology.objects.counties).features)
+         .data(topojson.feature(topology, topology.objects.counties).features, 
+          function (datum) {
+           return datum.id;
+         })
          .enter()
          .append('path')
-         .attr('d', path);
+         .attr('d', path)
+         .attr('id', function(d) { return d.id; });
+
+      bindMapControls();
     });
   });
+
+
+
+  function bindMapControls() {
+    console.log("bind map controls");
+    $(".controls-wrapper input[name=zip-code-filter]").on('input', function() {
+      var $this = $(this);
+      var zipCode = $this.val();
+      highlightByZipcode(zipCode);
+    });
+
+
+
+
+  }
+
+  function highlightByZipcode(zipCode) {
+    console.log("filtering by: ", zipCode);
+
+  }
 })();
 
