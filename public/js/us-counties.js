@@ -9,25 +9,41 @@
         'width' : map_width,
         'height' : map_height
       });
-
-    // $.get('/datasets/census-maps/county.json', {}, function(data) {
-    //   console.log("data loaded", data);
-    //   $("#results")
-    //     .html(JSON.stringify(data, null, 2));
-    // });
-    // 
     var path = d3.geo.path();
 
-    d3.json('/datasets/census-maps/us.json', function(err, topology) {
-      console.log(topology);
-      d3.select('#results')
-        .text(JSON.stringify(topology, null, 2));
+    // d3.json('/datasets/census-maps/us.json', function(err, topology) {
 
-      svg.selectAll('path')
-         .data(topojson.feature(topology, topology.objects.counties).features)
-         .enter()
-         .append('path')
-         .attr('d', path);
+    //   svg.selectAll('path')
+    //      .data(topojson.feature(topology, topology.objects.counties).features)
+    //      .enter()
+    //      .append('path')
+    //      .attr('d', path);
+    // });
+
+    d3.json('/datasets/census-maps/reference/county-codes.json', function(err, data) {
+      console.log("Num County Codes:", Object.keys(data).length);
+    });
+
+    d3.json('/datasets/census-maps/reference/zip-codes.json', function(err, zipCodes) {
+      var counties = {};
+
+      _.each(zipCodes, function(stateAndCounty, zipCode) {
+        // console.log("stateAndCounty", stateAndCounty);
+        _.each(stateAndCounty.countyId, function(countyId) {
+          // console.log("countyId", countyId);
+          if (! counties.hasOwnProperty(countyId)) {
+            counties[countyId] = true;
+          }
+        });
+      });
+
+      console.log("Num Counties in Zip-codes: ", Object.keys(counties).length);
+    });
+
+
+    d3.json('/datasets/census-maps/reference/zips-by_county.json', function(err, data) {
+      console.log("Num County Codes (zips-by_county):", Object.keys(data).length);
+
     });
   });
 })();
