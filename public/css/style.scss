@@ -19,6 +19,9 @@ a {
         fill: red;  
       }
 
+      &.selected {
+        fill: blue;
+      }
     }
   }
 }

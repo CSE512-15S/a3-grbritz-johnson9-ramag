@@ -11,3 +11,5 @@ a {
   stroke-width: .5px; }
   #us-counties #map path:hover {
     fill: red; }
+  #us-counties #map path.selected {
+    fill: blue; }

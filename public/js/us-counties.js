@@ -21,30 +21,52 @@
          .enter()
          .append('path')
          .attr('d', path)
-         .attr('id', function(d) { return d.id; });
-
-      bindMapControls();
+         .attr('class', function(d) { return "cid-" + d.id; })
+         .classed('county', true);
     });
   });
 
+  d3.json('/datasets/census-maps/reference/zip-codes-to-counties.json', 
+    function(err, zipCodesToCounties) {
+      $(".controls-wrapper").removeClass('hide');
 
 
-  function bindMapControls() {
-    console.log("bind map controls");
+
     $(".controls-wrapper input[name=zip-code-filter]").on('input', function() {
+      d3.selectAll('.county').classed('selected', false);
       var $this = $(this);
       var zipCode = $this.val();
-      highlightByZipcode(zipCode);
+
+      var matchingZips = zipCodesMatchingSubstring(zipCode, Object.keys(zipCodesToCounties));
+
+      var countyDivs = countyDivsMatchingZips(matchingZips, zipCodesToCounties);
+      // console.log(countyDivs);
+      // countyDivs.addClass('selected');
+      d3.selectAll(countyDivs).classed('selected', true);
+    });
+  });
+
+  function countyDivsMatchingZips (zipCodes, zipCodesToCounties) {
+    var counties = {};
+    _.each(zipCodes, function(zipCode) {
+      _.each(zipCodesToCounties[zipCode], function(county) {
+        // Convert countyid into classname
+        county = ".cid-" + county;
+        if (! counties.hasOwnProperty(county)) {
+          counties[county] = true;
+        }
+      });
     });
 
-
-
-
+    counties = Object.keys(counties);
+    return $(counties.join(", ")).get();
   }
 
-  function highlightByZipcode(zipCode) {
-    console.log("filtering by: ", zipCode);
-
+  function zipCodesMatchingSubstring (zipSubStr, zipCodes) {
+    return _.filter(zipCodes, function(zipCode) {
+      zipCode = zipCode + ""; // Massage into string just in case
+      return zipCode.indexOf(zipSubStr) === 0;
+    });
   }
 })();
 
