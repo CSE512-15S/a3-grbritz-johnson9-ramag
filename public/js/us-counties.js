@@ -13,17 +13,6 @@
     return "cid-" + id;
   }
 
-  function countyClickHandler (datum, index) {
-    if (! datasetCache['countyDetails']) {
-      console.warn("Clicked on county before data loaded");
-      return;
-    }
-
-    var stateId = datasetCache['countyDetails'][datum.id]['stateId'];
-    console.log(stateId, [datum.id]);
-    // var chart = StateChart(stateId, [datum.id]);
-  }
-
   function toggleCountyTooltip (countyId, showToolTip) {
     var referenceId = countyId.split('-')[1];
     // For now, fail silently when data is not loaded
@@ -79,8 +68,7 @@
          .on('mouseout', function(datum, index) {
             d3.select(this).classed('hover', false);
             toggleCountyTooltip(this.id, false);
-         })
-         .on('click', countyClickHandler);
+         });
     });
 
     // Load county reference details
@@ -96,29 +84,6 @@
       datasetCache['zipCodesToCounties'] = zipCodesToCounties;
     });
   });
-
-
-  // function StateChart (stateId, countyIds) {
-    
-  //   d3.json('/datasets/topojson/washington.json', function(err, topology) {
-  //     var svg = d3.select('#state')
-  //       .append('svg')
-  //       .attr('width', map_width / 2)
-  //       .attr('height', map_height / 2);
-  //       var path = d3.geo.path();
-  //       var projection = d3.geo.albersUsa()
-  //                          .scale([100, 100]);
-  //       path.projection(projection);
-        
-  //       svg.selectAll('path')
-  //          .data(topojson.feature(topology, topology.objects.washington).features)
-  //          .enter()
-  //          .append('path')
-  //          .attr('d', path);
-
-  //   });
-  // }
-
 
   function SearchBox (zipCodesToCounties) {
     var self = this;
