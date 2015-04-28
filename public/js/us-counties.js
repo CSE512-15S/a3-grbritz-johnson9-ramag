@@ -121,18 +121,35 @@
     var self = this;
     self.zipCodesToCounties = zipCodesToCounties;
 
+    self.searchMethodType = "zipcode";
+
+
+    $('input[name=search-mode-toggle]').on('change', function() {
+      var mode = $(this).val();
+      self.searchMethodType = mode;
+      console.log(mode);
+    });
+
+
     $(".controls-wrapper").removeClass('hide');
     $(".controls-wrapper input[name=zip-code-filter]").on('input', function() {
       d3.selectAll('.county').classed('selected', false);
+     
       var $this = $(this);
-      var zipCode = $this.val();
+      var searchString = $this.val();
       // Lets not have empty string show map as blue
-      if (! zipCode) return;
+      if (! searchString) return;
 
-      var matchingZips = self.zipCodesMatchingSubstring(zipCode, Object.keys(self.zipCodesToCounties));
+      var countyDivs;
+      if (self.searchMethodType === "zipcode") {
+        var matchingZips = self.zipCodesMatchingSubstring(searchString, Object.keys(self.zipCodesToCounties));
+        countyDivs = self.countyDivsMatchingZips(matchingZips, self.zipCodesToCounties);
+      }
+      else if (self.searchMethodType === "county") {
+        countyDivs = self.countyDivsMatchingEntry(searchString);
+      }
 
-      // var countyDivs = self.countyDivsMatchingZips(matchingZips, self.zipCodesToCounties);
-      var countyDivs = self.countyDivsMatchingEntry(zipCode);
+      
       d3.selectAll(countyDivs).classed('selected', true);
     });
 
