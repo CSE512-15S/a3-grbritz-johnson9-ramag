@@ -122,8 +122,7 @@
     self.zipCodesToCounties = zipCodesToCounties;
 
     self.searchMethodType = "zipcode";
-
-
+    $('input:radio[name=search-mode-toggle]').filter('[value="zipcode"]').attr('checked', true);
     $('input[name=search-mode-toggle]').on('change', function() {
       var mode = $(this).val();
       self.searchMethodType = mode;
