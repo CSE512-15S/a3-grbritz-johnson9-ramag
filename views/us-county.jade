@@ -8,9 +8,15 @@ block content
     h2 US County Map
     .row.controls-wrapper.hide
       .col-sm-12
+        label
+          input(type="radio", name="search-mode-toggle", value="zipcode")
+          span Zipcode
+        label
+          input(type="radio", name="search-mode-toggle", value="county")
+          span County
         label 
           strong Highlight counties containing zip code: 
-          input(name="zip-code-filter", placeholder="try typing 98015")
+          input(name="zip-code-filter", type="text", placeholder="try typing 98015")
 
 
     .row
