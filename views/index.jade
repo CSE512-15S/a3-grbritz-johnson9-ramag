@@ -1,10 +1,17 @@
 extends layout
 
 append js
-  script(src="/js/main.js")
+  script(src="/js/single-state.js")
 
 block content
-  p Looking at the traffic flows API
+  .container-fluid
+    h2 Washington Map
+    .row.controls-wrapper.hide
+      .col-sm-12
 
-  pre#results
+    .row
+      .col-sm-12
+        div.county-tooltip
+        #map
+
 

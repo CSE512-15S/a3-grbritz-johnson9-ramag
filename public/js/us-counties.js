@@ -21,7 +21,7 @@
 
     var stateId = datasetCache['countyDetails'][datum.id]['stateId'];
     console.log(stateId, [datum.id]);
-    var chart = StateChart(stateId, [datum.id]);
+    // var chart = StateChart(stateId, [datum.id]);
   }
 
   function toggleCountyTooltip (countyId, showToolTip) {
@@ -98,23 +98,26 @@
   });
 
 
-  function StateChart (stateId, countyIds) {
+  // function StateChart (stateId, countyIds) {
     
-    d3.json('/datasets/topojson/washington.json', function(err, topology) {
-      var svg = d3.select('#state')
-        .append('svg')
-        .attr('width', map_width / 2)
-        .attr('height', map_height / 2);
-        var path = d3.geo.path();
+  //   d3.json('/datasets/topojson/washington.json', function(err, topology) {
+  //     var svg = d3.select('#state')
+  //       .append('svg')
+  //       .attr('width', map_width / 2)
+  //       .attr('height', map_height / 2);
+  //       var path = d3.geo.path();
+  //       var projection = d3.geo.albersUsa()
+  //                          .scale([100, 100]);
+  //       path.projection(projection);
         
-        svg.selectAll('path')
-           .data(topojson.feature(topology, topology.objects.washington).features)
-           .enter()
-           .append('path')
-           .attr('d', path);
+  //       svg.selectAll('path')
+  //          .data(topojson.feature(topology, topology.objects.washington).features)
+  //          .enter()
+  //          .append('path')
+  //          .attr('d', path);
 
-    });
-  }
+  //   });
+  // }
 
 
   function SearchBox (zipCodesToCounties) {
