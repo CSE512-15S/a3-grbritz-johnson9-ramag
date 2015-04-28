@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var fs = require('fs');
 
-countiesByState("53", './public/datasets/geojson/wa-counties.json');
+// countiesByState("53", './public/datasets/geojson/wa-counties.json');
 
 function countiesByState(stateId, outputFile) {
   fs.readFile('../us-maps/geojson/county.json', function(err, fileContents) {
@@ -20,6 +20,14 @@ function countiesByState(stateId, outputFile) {
     writeToFile(outputFile, geoJson);
   });
 }
+
+fs.readFile('./public/datasets/education_data_by_county.json', function(err, fileContents) {
+    if (err) throw Error(err);
+    var waCounties = _.filter(JSON.parse(fileContents), function(county) {
+                        return county["Geography"].indexOf(", Washington") !== -1;
+                      });
+    writeToFile('./public/datasets/reference/educationData.json', waCounties);
+})
 
 // fs.readFile('./public/datasets/reference/zips-by_county.json', function(err, fileContents) {
 //   if (err) throw Error(err);
