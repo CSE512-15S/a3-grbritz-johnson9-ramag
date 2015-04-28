@@ -26,7 +26,7 @@ fs.readFile('./public/datasets/education_data_by_county.json', function(err, fil
     var waCounties = _.filter(JSON.parse(fileContents), function(county) {
                         return county["Geography"].indexOf(", Washington") !== -1;
                       });
-    writeToFile('./public/datasets/reference/educationData.json', waCounties);
+    writeToFile('./public/datasets/reference/wa-education-data.json', waCounties);
 })
 
 // fs.readFile('./public/datasets/reference/zips-by_county.json', function(err, fileContents) {
