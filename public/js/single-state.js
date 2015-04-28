@@ -5,7 +5,7 @@
   var datasetCache = {};
 
   function countyId (datum) {
-    var id = datum.id + "";
+    var id = datum.properties['GEOID10'] + "";
     // Make sure that all counties have leading 0's
     while(id.length < 5) {
       id = "0" + id;
@@ -40,22 +40,40 @@
 
   function StateChart () {
     
-      d3.json('/datasets/geojson/washington.json', function(err, geojson) {
+      d3.json('/datasets/topojson/wa-counties.json', function(err, json) {
         var svg = d3.select('#map')
           .append('svg')
           .attr('width', map_width)
           .attr('height', map_height);
           var path = d3.geo.path();
-          
-          console.log(geojson);
+          var projection = d3.geo.albers();
+          // TODO: Rotate the map so that its aligned with the screen, not on a globe
+          projection.scale(5500)
+                    .parallels([45.32, 49])
+                    .translate([1800,1300])
+
+          path.projection(projection);
           
           svg.selectAll('path')
-             .data(geojson.features)
+             .data(topojson.feature(json, json.objects['wa-counties']).features, 
+                function (datum) {
+                 return datum.properties['GEOID10'];
+               })
              .enter()
              .append('path')
              .attr('d', path)
              .attr('fill', 'none')
-             .attr('stroke', '#000');
+             .attr('stroke', '#000')
+             .attr('id', countyId)
+             .classed('county', true)
+             .on('mouseover', function(datum, index) {
+                d3.select(this).classed('hover', true);
+                toggleCountyTooltip(this.id, true);
+             })
+             .on('mouseout', function(datum, index) {
+                d3.select(this).classed('hover', false);
+                toggleCountyTooltip(this.id, false);
+             });
 
       });
     }

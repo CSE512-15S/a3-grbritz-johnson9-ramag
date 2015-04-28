@@ -5,14 +5,15 @@ body {
 a {
   color: #00B7FF; }
 
-#us-counties #map path {
+#map path {
   fill: #ccc;
   stroke: #fff;
   stroke-width: .5px; }
-  #us-counties #map path.selected {
+  #map path.selected {
     fill: blue; }
-  #us-counties #map path:hover, #us-counties #map path.hover {
+  #map path:hover, #map path.hover {
     fill: red; }
-#us-counties .county-tooltip {
+
+.county-tooltip {
   position: relative;
   height: 20px; }

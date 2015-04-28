@@ -8,26 +8,25 @@ a {
 }
 
 
-#us-counties {
-  #map {
-    path {
-      fill: #ccc;
-      stroke: #fff;
-      stroke-width: .5px;
-    
-      &.selected {
-        fill: blue;
-      }
 
-      &:hover, &.hover {
-        fill: red;  
-      }
+#map {
+  path {
+    fill: #ccc;
+    stroke: #fff;
+    stroke-width: .5px;
+  
+    &.selected {
+      fill: blue;
+    }
+
+    &:hover, &.hover {
+      fill: red;  
     }
   }
+}
 
-  .county-tooltip {
-    position: relative;
-    height: 20px;
-    // display: inline-block;
-  }
+.county-tooltip {
+  position: relative;
+  height: 20px;
+  // display: inline-block;
 }
