@@ -1,12 +1,31 @@
 var _ = require('underscore');
 var fs = require('fs');
 
-fs.readFile('./public/datasets/reference/zips-by_county.json', function(err, fileContents) {
-  if (err) throw Error(err);
-  var countiesToZips = JSON.parse(fileContents);
-  writeZipsToFile(zipsToCounties(countiesToZips));
-});
+countiesByState("53", './public/datasets/geojson/wa-counties.json');
 
+function countiesByState(stateId, outputFile) {
+  fs.readFile('../us-maps/geojson/county.json', function(err, fileContents) {
+    if (err) throw Error(err);
+
+    var features = JSON.parse(fileContents).features;
+
+    var counties = _.filter(features, function(feature) {
+      return feature.properties["STATEFP10"] === stateId;
+    });
+
+    var geoJson = {
+      'type' : 'FeatureCollection',
+      'features' : counties
+    };
+    writeToFile(outputFile, geoJson);
+  });
+}
+
+// fs.readFile('./public/datasets/reference/zips-by_county.json', function(err, fileContents) {
+//   if (err) throw Error(err);
+//   var countiesToZips = JSON.parse(fileContents);
+//   writeZipsToFile(zipsToCounties(countiesToZips));
+// });
 // fs.readFile('./public/datasets/census-maps/reference/missingCountyToZipcodes.json', function(err, fileContents) {
 //     if (err) throw Error(err);
 //     var countiesToZips = JSON.parse(fileContents);
@@ -17,6 +36,12 @@ fs.readFile('./public/datasets/reference/zips-by_county.json', function(err, fil
 //     console.log(transformed);
 // });
 
+
+function writeToFile(filepath, object) {
+  fs.writeFile(filepath, JSON.stringify(object), function(err) {
+    if (err) throw Error(err);
+  });
+}
 
 function writeZipsToFile(zips) {
   fs.writeFile('./public/datasets/reference/zip-codes-to-counties.json', 

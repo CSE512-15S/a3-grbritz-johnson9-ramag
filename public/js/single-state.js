@@ -40,26 +40,17 @@
 
   function StateChart () {
     
-      d3.json('/datasets/topojson/washington.json', function(err, topology) {
+      d3.json('/datasets/geojson/washington.json', function(err, geojson) {
         var svg = d3.select('#map')
           .append('svg')
           .attr('width', map_width)
           .attr('height', map_height);
           var path = d3.geo.path();
-          var projection = d3.geo.albers()
-                             .scale(4000)
-                             .translate([map_width + 500, map_height+ 500]);
-                             
-
-                             // .scale(5000)
-                             // .translate([1800, 1200]);
-          // var projection = d3.geo.conicEqualArea()
-          //                    .scale(200);
-
-          path.projection(projection);
+          
+          console.log(geojson);
           
           svg.selectAll('path')
-             .data(topojson.feature(topology, topology.objects.washington).features)
+             .data(geojson.features)
              .enter()
              .append('path')
              .attr('d', path)
