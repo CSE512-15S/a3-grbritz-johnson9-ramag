@@ -172,9 +172,11 @@
           .attr('width', map_width)
           .attr('height', map_height);
           var path = d3.geo.path();
-          var projection = d3.geo.albers()
-                             // .scale(200)
-                             // .translate([500, 300]);
+
+          var projection = d3.geo.mercator()
+                             .scale(3300)
+                             .translate([7200, 3250]);
+
           // TODO: Rotate the map so that its aligned with the screen, not on a globe
           projection.scale(5500)
                     .parallels([45.32, 49])
