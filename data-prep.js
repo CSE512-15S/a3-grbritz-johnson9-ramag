@@ -1,8 +1,30 @@
 var _ = require('underscore');
 var fs = require('fs');
 
-// countiesByState("53", './public/datasets/geojson/wa-counties.json');
+var converter = require('json-2-csv');
 
+fs.readFile('./public/datasets/reference/wa-education-data.json', function(err, fileContents) {
+  if (err) throw Error(err);
+  var documents = JSON.parse(fileContents);
+
+  documents = _.map(documents, function(document) {
+    document.Geography = document.Geography.split(',')[0];
+    return document;
+  });
+
+
+  converter.json2csv(documents, function(err, csv) {
+    if (err) { throw err};
+    
+    fs.writeFile('./public/datasets/reference/wa-education-data.csv', csv, function(err) {
+      if (err) throw err;
+    })
+  });
+});
+
+
+
+// countiesByState("53", './public/datasets/geojson/wa-counties.json');
 function countiesByState(stateId, outputFile) {
   fs.readFile('../us-maps/geojson/county.json', function(err, fileContents) {
     if (err) throw Error(err);
@@ -21,13 +43,13 @@ function countiesByState(stateId, outputFile) {
   });
 }
 
-fs.readFile('./public/datasets/education_data_by_county.json', function(err, fileContents) {
-    if (err) throw Error(err);
-    var waCounties = _.filter(JSON.parse(fileContents), function(county) {
-                        return county["Geography"].indexOf(", Washington") !== -1;
-                      });
-    writeToFile('./public/datasets/reference/wa-education-data.json', waCounties);
-})
+// fs.readFile('./public/datasets/education_data_by_county.json', function(err, fileContents) {
+//     if (err) throw Error(err);
+//     var waCounties = _.filter(JSON.parse(fileContents), function(county) {
+//                         return county["Geography"].indexOf(", Washington") !== -1;
+//                       });
+//     writeToFile('./public/datasets/reference/wa-education-data.json', waCounties);
+// })
 
 // fs.readFile('./public/datasets/reference/zips-by_county.json', function(err, fileContents) {
 //   if (err) throw Error(err);
