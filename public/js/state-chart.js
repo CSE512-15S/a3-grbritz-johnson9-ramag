@@ -97,13 +97,13 @@ function StateChart (datasetCache) {
   draw.width = function(val) {
     if (!arguments.length) return width;
     width = val;
-    return draw.bind(self);
+    return draw;
   };
 
   draw.height = function(val) {
     if (!arguments.length) return height;
     height = val;
-    return draw.bind(self);
+    return draw;
   };
 
   return draw;

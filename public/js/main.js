@@ -3,16 +3,6 @@ var main = (function () {
   var map_height = 500;
   var datasetCache = {};
 
-
-  function CountyDetails(countyId) {
-    var self = this;
-
-    createPopulationPyramid(countyId, datasetCache['educationData']);
-    return self;
-  }
-
-
-
   
   // "Main" fn; starts after all DOM elements have loaded
   $(document).ready(function() {
@@ -27,7 +17,9 @@ var main = (function () {
 
     var cacheInterval = setInterval(function() {
       if (cacheLoaded()) {
-        var chart = StateChart(datasetCache);
+        var chart = StateChart(datasetCache)
+                      .width(map_width)
+                      .height(map_height);
         chart('#map');
         clearInterval(cacheInterval);
       }
