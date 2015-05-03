@@ -40,6 +40,9 @@ var main = (function () {
 
   function CountyDetails(countyId) {
     var self = this;
+    
+
+    createPopulationPyramid(countyId, datasetCache['educationData']);
     return self;
   }
 
@@ -47,8 +50,6 @@ var main = (function () {
 
   function StateChart () {
       d3.json('/datasets/topojson/wa-counties.json', function(err, json) {
-        createPopulationPyramid(53033, json);
-        
         var svg = d3.select('#map')
           .append('svg')
           .attr('width', map_width)
@@ -87,13 +88,27 @@ var main = (function () {
 
   // "Main" fn; starts after all DOM elements have loaded
   $(document).ready(function() {
-    var chart = StateChart();
-
     // Load county reference details
     d3.json('/datasets/reference/wa-county-codes.json', function(err, countyCodes) {
       datasetCache['countyCodes'] = countyCodes;
     });
+
+    d3.json('/datasets/reference/wa-education-data-simple.json', function(err, educationData) {
+      datasetCache['educationData'] = educationData;
+    });
+
+    var cacheInterval = setInterval(function() {
+      if (cacheLoaded()) {
+        var chart = StateChart();
+        clearInterval(cacheInterval);
+      }
+    }, 50);
   });
+
+  function cacheLoaded() {
+    var cacheKeys = ['educationData', 'countyCodes'];
+    return _.difference(cacheKeys, Object.keys(datasetCache)).length === 0;
+  }
 });
 
 main();
