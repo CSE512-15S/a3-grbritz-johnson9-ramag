@@ -1,7 +1,10 @@
 extends layout
 
 append js
-	script(src="/js/single-state.js")
+	script(src="/js/population-pyramid.js")
+	script(src="/js/county-details.js")
+	script(src="/js/state-chart.js")
+	script(src="/js/main.js")
 
 block content
 	.container-fluid
@@ -12,9 +15,11 @@ block content
 		.row
 			.col-sm-5
 				div.county-tooltip
-				#map
-			.col-sm-7
-				#pyramid
+				#map.loading
+			.col-sm-7#county-details.hide
+				h3 Population
+				.row
+					.col-sm-12#population
 
 
 

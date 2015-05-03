@@ -1,10 +1,34 @@
+var main = (function () {
+  var map_width = 480;
+  var map_height = 500;
+  var datasetCache = {};
+  
+  // "Main" fn; starts after all DOM elements have loaded
+  $(document).ready(function() {
+    // Load county reference details
+    d3.json('/datasets/reference/wa-county-codes.json', function(err, countyCodes) {
+      datasetCache['countyCodes'] = countyCodes;
+    });
 
-$(document).ready(function() { 
-  var ACCESS_CODE = "5f7d1b42-6bdd-4b66-ba4a-f2cfdf6fbfe5";
+    d3.json('/datasets/reference/wa-education-data-simple.json', function(err, educationData) {
+      datasetCache['educationData'] = educationData;
+    });
 
-  $.get("http://www.wsdot.wa.gov/Traffic/api/TrafficFlow/TrafficFlowREST.svc/GetTrafficFlowsAsJson?AccessCode=" + ACCESS_CODE, {}, function(data) {
-    console.log("Response Data:", data);
+    var cacheInterval = setInterval(function() {
+      if (cacheLoaded()) {
+        var chart = StateChart(datasetCache)
+                      .width(map_width)
+                      .height(map_height);
+        chart('#map');
+        clearInterval(cacheInterval);
+      }
+    }, 50);
+  });
 
-    $("#results").text(JSON.stringify(data, null, 2));
-  }, "jsonp");
+  function cacheLoaded() {
+    var cacheKeys = ['educationData', 'countyCodes'];
+    return _.difference(cacheKeys, Object.keys(datasetCache)).length === 0;
+  }
 });
+
+main();

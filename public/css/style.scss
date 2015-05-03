@@ -7,7 +7,9 @@ a {
   color: #00B7FF;
 }
 
-
+.loading:after {
+  content: "Loading..."
+}
 
 #map {
   path {
@@ -30,4 +32,23 @@ a {
   height: 20px;
   // display: inline-block;
   pointer-events:none;
+}
+
+.axis line,
+.axis path {
+  shape-rendering: crispEdges;
+  fill: transparent;
+  stroke: #555;
+}
+
+.bar {
+  fill-opacity: 0.5;
+}
+
+.bar.left {
+  fill: steelblue;
+}
+
+.bar.right {
+  fill: firebrick;
 }
