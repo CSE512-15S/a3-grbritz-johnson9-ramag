@@ -1,33 +1,20 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; 
-}
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF; 
-}
+  color: #00B7FF; }
 
 #map path {
   fill: #ccc;
   stroke: #fff;
-  stroke-width: .5px; 
-}
-#map path.selected {
-    fill: blue; 
-}
-#map path:hover, #map path.hover {
-    fill: red; 
-}
+  stroke-width: .5px; }
+  #map path.selected {
+    fill: blue; }
+  #map path:hover, #map path.hover {
+    fill: red; }
 
 .county-tooltip {
   position: relative;
   height: 20px;
-  pointer-events: none;
-}
-
-.axis line,
-.axis path {
-  shape-rendering: crispEdges;
-  fill: transparent;
-  stroke: #555;
-}
+  pointer-events: none; }
