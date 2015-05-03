@@ -1,4 +1,4 @@
-(function () {
+var main = (function () {
   var map_width = 960;
   var map_height = 500;
 
@@ -40,10 +40,6 @@
 
   function CountyDetails(countyId) {
     var self = this;
-      
-
-
-
     return self;
   }
 
@@ -98,8 +94,6 @@
       datasetCache['countyCodes'] = countyCodes;
     });
   });
+});
 
-  // TODO:
-  // function DataChart()
-
-})();
+main();
