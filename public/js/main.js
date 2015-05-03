@@ -1,8 +1,7 @@
 var main = (function () {
-  var map_width = 500;
+  var map_width = 480;
   var map_height = 500;
   var datasetCache = {};
-
   
   // "Main" fn; starts after all DOM elements have loaded
   $(document).ready(function() {

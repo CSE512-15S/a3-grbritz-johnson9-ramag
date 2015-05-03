@@ -1,3 +1,7 @@
+/*
+ * This file manages the state&county map.
+ */
+
 function StateChart (datasetCache) {
   var width = 480,
       height = 500,
@@ -7,7 +11,7 @@ function StateChart (datasetCache) {
   self.datasetCache = datasetCache;
 
   // Private functions
-  function countyId (datum) {
+  function createCountyId (datum) {
     var id = datum.properties['GEOID10'] + "";
     // Make sure that all counties have leading 0's
     while(id.length < 5) {
@@ -16,19 +20,23 @@ function StateChart (datasetCache) {
     return "cid-" + id;
   }
 
-  function toggleCountyTooltip (countyId, showToolTip) {
-    var referenceId = countyId.split('-')[1];
+  function extractCountyId (domSelection) {
+    return domSelection.id.split('-')[1];
+  }
+
+  function toggleCountyTooltip (countyDiv, showToolTip) {
+    var countyId = extractCountyId(countyDiv);
     // For now, fail silently when data is not loaded
     if (! self.datasetCache['countyCodes']) return;
     
 
-    var boundingBox = d3.select('#' + countyId).node().getBBox();
+    var boundingBox = d3.select(countyDiv).node().getBBox();
     tooltipPosition = {
       'left' : (boundingBox.x + (boundingBox.width / 2)) + "px",
       'top' : (boundingBox.y + (boundingBox.height / 2)) + "px"
     }
 
-    var details = self.datasetCache['countyCodes'][referenceId];
+    var details = self.datasetCache['countyCodes'][countyId];
 
     if (showToolTip) {
       $(".county-tooltip").css(tooltipPosition)
@@ -40,6 +48,16 @@ function StateChart (datasetCache) {
                           .text("");
     }
   }
+
+
+
+  // Returns only the data for this countyId
+  function educationDataForCounty (countyId) {
+    return _.filter(datasetCache['educationData'], function(countyData) {
+      return countyData.countyId === countyId;
+    })[0];
+  }
+
   // Load topojson
   d3.json('/datasets/topojson/wa-counties.json', function(err, json) {
     if (err) {
@@ -66,7 +84,6 @@ function StateChart (datasetCache) {
       .attr('width', width)
       .attr('height', height);
       var path = d3.geo.path();
-
       var projection = d3.geo.mercator()
                          .scale(3300)
                          .translate([7200, 3250]);
@@ -82,15 +99,20 @@ function StateChart (datasetCache) {
          .attr('d', path)
          .attr('fill', 'none')
          .attr('stroke', '#000')
-         .attr('id', countyId)
+         .attr('id', createCountyId)
          .classed('county', true)
          .on('mouseover', function(datum, index) {
             d3.select(this).classed('hover', true);
-            toggleCountyTooltip(this.id, true);
+            toggleCountyTooltip(this, true);
          })
          .on('mouseout', function(datum, index) {
             d3.select(this).classed('hover', false);
-            toggleCountyTooltip(this.id, false);
+            toggleCountyTooltip(this, false);
+         })
+         .on('click', function(datum, index) {
+            var cid = extractCountyId(this);
+            var countyDetails = CountyDetails(educationDataForCounty(cid));
+            countyDetails('#county-details');
          });
   }
 
