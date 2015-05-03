@@ -5,6 +5,9 @@ body {
 a {
   color: #00B7FF; }
 
+.loading:after {
+  content: "Loading..."; }
+
 #map path {
   fill: #ccc;
   stroke: #fff;

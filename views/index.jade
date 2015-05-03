@@ -1,7 +1,7 @@
 extends layout
 
 append js
-
+	script(src="/js/state-chart.js")
 	script(src="/js/population-pyramid.js")
 	script(src="/js/main.js")
 
@@ -14,8 +14,9 @@ block content
 		.row
 			.col-sm-5
 				div.county-tooltip
-				#map
+				#map.loading
 			.col-sm-7
+				#county-details
 				#pyramid
 
 
