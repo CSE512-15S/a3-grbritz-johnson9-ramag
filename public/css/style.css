@@ -12,9 +12,11 @@ a {
   stroke: #fff;
   stroke-width: .5px; 
 }
+
 #map path.selected {
     fill: blue; 
 }
+
 #map path:hover, #map path.hover {
     fill: red; 
 }
@@ -31,3 +33,7 @@ a {
   fill: transparent;
   stroke: #555;
 }
+/*
+.hidden {
+  display: none;
+}*/

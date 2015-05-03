@@ -38,135 +38,173 @@
     }
   }
 
-  function createPopulationPyramid (countyId, json) {
-    var width = 700, 
+  function createPopulationPyramid (countyId) {
+    var width = 800, 
     height = 300;
     
     var margin = {
       top: 20,
       right: 10,
-      bottom: 40,
-      left: 10
+      bottom: 70,
+      left: 30,
+      middle: 28
     };
 
-    margin.middle = 28;
     var regionWidth = (width/2) - margin.middle;
 
     var pointA = regionWidth,
       pointB = width - regionWidth;
 
-    var exampleData = [
-      {group: '0-9', male: 10, female: 12},
-      {group: '10-19', male: 14, female: 15},
-      {group: '20-29', male: 15, female: 18},
-      {group: '30-39', male: 18, female: 18},
-      {group: '40-49', male: 21, female: 22},
-      {group: '50-59', male: 19, female: 24},
-      {group: '60-69', male: 15, female: 14},
-      {group: '70-79', male: 8, female: 10},
-      {group: '80-89', male: 4, female: 5},
-      {group: '90-99', male: 2, female: 3},
-      {group: '100-109', male: 1, female: 1},
-    ];
+    d3.json('/datasets/reference/wa-education-data-simple.json', function(err, json){
+      var countyData = getCountyData(countyId, json);
+      if(countyData) {
+        // the id exists
+      } 
 
-    var totalPopulation = d3.sum(exampleData, function(d) { return d.male + d.female; }),
-    percentage = function(d) { return d / totalPopulation; };
+      var sumPop = function(data){
+        var sum = 0;
+        $.each(data, function(key, val){
+          sum += val;
+        });
+        return sum;
+      };
 
+      var malePop = sumPop(countyData['male']['population']);
+      var femalePop = sumPop(countyData['female']['population']);
+      var totalPopulation = malePop + femalePop;
+      
+      console.log(totalPopulation);
+      percentage = function(d) { return d / totalPopulation; };
+      maxVal = function(d) {
+        var max = -1; // population is always positive
+        $.each(d, function(key, val) {
+          if(val > max){
+            max = val;
+          }
+        });
+        return max;
+      }
+      var svg = d3.select('#pyramid').append('svg')
+        .attr('width', margin.left + width + margin.right)
+        .attr('height', margin.top + height + margin.bottom)
+        .append('g')
+        .attr('class', 'inner-region')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    var svg = d3.select('#pyramid').append('svg')
-      .attr('width', margin.left + width + margin.right)
-      .attr('height', margin.top + height + margin.bottom)
-      .append('g')
-      .attr('class', 'inner-region')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      // find the maximum data value on either side
+      // since this will be shared by both of the x-axes
+      var maxValue = Math.max(
+        maxVal(countyData['male']['population']),
+        maxVal(countyData['female']['population'])
+      );
+      alert(maxValue);
 
-    // find the maximum data value on either side
-    // since this will be shared by both of the x-axes
-    var maxValue = Math.max(
-      d3.max(exampleData, function(d) { return percentage(d.male); }),
-      d3.max(exampleData, function(d) { return percentage(d.female); })
-    );
-    
-    // the xScale goes from 0 to the width of a region
-    //  it will be reversed for the left x-axis
-    var xScale = d3.scale.linear()
-      .domain([0, maxValue])
-      .range([0, regionWidth])
-      .nice();
+      // the xScale goes from 0 to the width of a region
+      //  it will be reversed for the left x-axis
+      var xScale = d3.scale.linear()
+        .domain([0, maxValue])
+        .range([0, regionWidth])
+        .nice();
 
-    var xScaleLeft = d3.scale.linear()
-      .domain([0, maxValue])
-      .range([regionWidth, 0]);
+      var yScale = d3.scale.ordinal()
+        .domain(Object.keys(countyData['male']['population']))
+        .rangeRoundBands([height,0], 0.1);
 
-    var xScaleRight = d3.scale.linear()
-      .domain([0, maxValue])
-      .range([0, regionWidth]);
+      var yAxisLeft = d3.svg.axis()
+        .scale(yScale)
+        .orient('right')
+        .tickSize(4,0)
+        .tickPadding(margin.middle - 4);
 
-    var yScale = d3.scale.ordinal()
-      .domain(exampleData.map(function(d) { return d.group; }))
-      .rangeRoundBands([height,0], 0.1);
+      var yAxisRight = d3.svg.axis()
+        .scale(yScale)
+        .orient('left')
+        .tickSize(4,0)
+        .tickFormat('');
 
-    var yAxisLeft = d3.svg.axis()
-      .scale(yScale)
-      .orient('right')
-      .tickSize(4,0)
-      .tickPadding(margin.middle - 4);
+      var xAxisRight = d3.svg.axis()
+        .scale(xScale)
+        .orient('bottom')
+        .tickFormat(d3.format(''));
 
-    var yAxisRight = d3.svg.axis()
-      .scale(yScale)
-      .orient('left')
-      .tickSize(4,0)
-      .tickFormat('');
+      var xAxisLeft = d3.svg.axis()
+        // REVERSE THE X-AXIS SCALE ON THE LEFT SIDE BY REVERSING THE RANGE
+        .scale(xScale.copy().range([pointA, 0]))
+        .orient('bottom')
+        .tickFormat(d3.format(''));
 
-    var xAxisRight = d3.svg.axis()
-      .scale(xScale)
-      .orient('bottom')
-      .tickFormat(d3.format('%'));
+      // MAKE GROUPS FOR EACH SIDE OF CHART
+      // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
+      var leftBarGroup = svg.append('g')
+        .attr('transform', translation(pointA, 0) + 'scale(-1,1)');
+      var rightBarGroup = svg.append('g')
+        .attr('transform', translation(pointB, 0));
 
-    var xAxisLeft = d3.svg.axis()
-      // REVERSE THE X-AXIS SCALE ON THE LEFT SIDE BY REVERSING THE RANGE
-      .scale(xScale.copy().range([pointA, 0]))
-      .orient('bottom')
-      .tickFormat(d3.format('%'));
+      // DRAW AXES
+      svg.append('g')
+        .attr('class', 'axis y left')
+        .attr('transform', translation(pointA, 0))
+        .call(yAxisLeft)
+        .selectAll('text')
+        .style('text-anchor', 'middle');
 
-    // MAKE GROUPS FOR EACH SIDE OF CHART
-    // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
-    var leftBarGroup = svg.append('g')
-      .attr('transform', translation(pointA, 0) + 'scale(-1,1)');
-    var rightBarGroup = svg.append('g')
-      .attr('transform', translation(pointB, 0));
+      svg.append('g')
+        .attr('class', 'axis y right')
+        .attr('transform', translation(pointB, 0))
+        .call(yAxisRight);
 
-    // DRAW AXES
-    svg.append('g')
-      .attr('class', 'axis y left')
-      .attr('transform', translation(pointA, 0))
-      .call(yAxisLeft)
-      .selectAll('text')
-      .style('text-anchor', 'middle');
+      svg.append('g')
+        .attr('class', 'axis x left')
+        .attr('transform', translation(0, height))
+        .call(xAxisLeft)
+        .selectAll("text")  
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", function(d) {
+            return "rotate(-65)";
+        });
 
-    svg.append('g')
-      .attr('class', 'axis y right')
-      .attr('transform', translation(pointB, 0))
-      .call(yAxisRight);
+      svg.append('g')
+        .attr('class', 'axis x right')
+        .attr('transform', translation(pointB, height))
+        .call(xAxisRight).selectAll("text")  
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", function(d) {
+            return "rotate(-65)";
+        });
 
-    svg.append('g')
-      .attr('class', 'axis x left')
-      .attr('transform', translation(0, height))
-      .call(xAxisLeft);
-
-    svg.append('g')
-      .attr('class', 'axis x right')
-      .attr('transform', translation(pointB, height))
-      .call(xAxisRight);
+        console.log(countyData['male']['population']);
+      // DRAW BARS
+      leftBarGroup.selectAll('.bar.left')
+        .data(countyData['male']['population'])
+        .enter().append('rect')
+        .attr('class', 'bar left')
+        .attr('x', 0)
+        .attr('y', function(d) { return yScale(Object.keys(countyData['male']['population'])); })
+        .attr('width', function(d) { return xScale(percentage(Object.values(countyData['male']['population']))); })
+        .attr('height', yScale.rangeBand());
+    });
   }
-
+  
   function translation(x,y) {
     return 'translate(' + x + ',' + y + ')';
   }
 
+  function getCountyData (countyId, json) {
+    console.log(json);
+    for (var i = 0; i < json.length; i++) {
+      if("" + json[i]['countyId'] === countyId){
+        return json[i];
+      }
+    }
+    return false;
+  }
+
   function StateChart () {
       d3.json('/datasets/topojson/wa-counties.json', function(err, json) {
-        createPopulationPyramid(53033, json);
         var svg = d3.select('#map')
           .append('svg')
           .attr('width', map_width)
@@ -178,33 +216,41 @@
                              .translate([7200, 3250]);
 
           // TODO: Rotate the map so that its aligned with the screen, not on a globe
-          projection.scale(5500)
-                    .parallels([45.32, 49])
-                    .translate([1800,1300])
+          // projection.scale(5500)
+          //           // .parallels([45.32, 49])
+          //           .translate([1800,1300])
 
           path.projection(projection);
           
           svg.selectAll('path')
-             .data(topojson.feature(json, json.objects['wa-counties']).features, 
-                function (datum) {
-                 return datum.properties['GEOID10'];
-               })
-             .enter()
-             .append('path')
-             .attr('d', path)
-             .attr('fill', 'none')
-             .attr('stroke', '#000')
-             .attr('id', countyId)
-             .classed('county', true)
-             .on('mouseover', function(datum, index) {
-                d3.select(this).classed('hover', true);
-                toggleCountyTooltip(this.id, true);
-             })
-             .on('mouseout', function(datum, index) {
-                d3.select(this).classed('hover', false);
-                toggleCountyTooltip(this.id, false);
-             });
+          .data(topojson.feature(json, json.objects['wa-counties']).features, 
+            function (datum) {
+              return datum.properties['GEOID10'];
+          })
+          .enter()
+          .append('path')
+          .attr('d', path)
+          .attr('fill', 'none')
+          .attr('stroke', '#000')
+          .attr('id', countyId)
+          .classed('county', true)
+          .on('mouseover', function(datum, index) {
+            d3.select(this).classed('hover', true);
+            toggleCountyTooltip(this.id, true);
+          })
+          .on('mouseout', function(datum, index) {
+            d3.select(this).classed('hover', false);
+            toggleCountyTooltip(this.id, false);
+          })
+          .on('click', function(datum, index) {
+            // show div
+            // pass in county id
+            var referenceId = this.id.split('-')[1];
+            console.log(referenceId);
+            createPopulationPyramid(referenceId);
+            // $('#pyramid').remove('hidden');
 
+          });
       });
     }
 
