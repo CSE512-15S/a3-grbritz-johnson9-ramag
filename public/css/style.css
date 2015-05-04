@@ -43,3 +43,9 @@ a {
 
 .bar.right {
   fill: firebrick; }
+
+label {
+  margin: 5px; }
+
+#options {
+  margin-bottom: 10px; }

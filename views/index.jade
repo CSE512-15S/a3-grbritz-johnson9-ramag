@@ -10,7 +10,7 @@ append js
 
 block content
 	.container-fluid
-		h2 Washington Map
+		h2 Washington Population and Education
 		.row.controls-wrapper.hide
 		.col-sm-12
 
@@ -21,20 +21,21 @@ block content
 				#map.loading
 			.col-sm-7#county-details.hide
 				.row
-					.col-sm-12#countyname
+					h2#countyname
 				h3 Education
 				div#options
 					label
 						input.educationToggle(type="radio", name="gender_filter", value="1" checked=true) 
 						| Total
-					br
 					label
 						input.educationToggle(type="radio", name="gender_filter", value="0") 
 						| By Gender
 				.row
-					.col-sm-4.education-chart#education
-					.col-sm-4.education-chart#femaleEducation
-					.col-sm-4.education-chart#maleEducation
+					.col-sm-12.education-chart#education
+					.col-sm-6.education-chart#femaleEducation
+						| Female
+					.col-sm-6.education-chart#maleEducation
+						| Male
 				h3 Population
 				.row
 					.col-sm-12#population

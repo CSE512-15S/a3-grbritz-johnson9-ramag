@@ -2,8 +2,8 @@
 
 
 function IncomeChart(countyData) {
-  var width = 700, 
-      height = 300
+  var width = 500, 
+      height = 200
       self = this;
 
   // Private fns
