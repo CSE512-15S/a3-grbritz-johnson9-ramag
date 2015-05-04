@@ -7,6 +7,7 @@ function StateChart (datasetCache) {
       height = 500,
       mapData = null,
       self = this;
+      selectedCounty = null;
 
   self.datasetCache = datasetCache;
 
@@ -49,7 +50,32 @@ function StateChart (datasetCache) {
     }
   }
 
+  function selectedCountyTooltip (countyDiv, showToolTip) {
+    var countyId = extractCountyId(countyDiv);
+    // For now, fail silently when data is not loaded
+    if (! self.datasetCache['countyCodes']) return;
+    
 
+    var boundingBox = d3.select(countyDiv).node().getBBox();
+    tooltipPosition = {
+      'left' : (boundingBox.x + (boundingBox.width / 2)) + "px",
+      'top' : (boundingBox.y + (boundingBox.height / 2)) + "px"
+    }
+
+    var details = self.datasetCache['countyCodes'][countyId];
+
+    if (showToolTip) {
+      console.log("selectedCounty");
+      console.log(details.name);
+      $(".selected-county-tooltip").css(tooltipPosition)
+                          .text(details.name)
+                          .css('visibility', 'visible');
+    }
+    else {
+      $(".selected-county-tooltip").css('visibility', 'hidden')
+                          .text("");
+    }
+  }
 
   // Returns only the data for this countyId
   function educationDataForCounty (countyId) {
@@ -117,6 +143,20 @@ function StateChart (datasetCache) {
             
             var details = self.datasetCache['countyCodes'][cid];
             document.getElementById("countyname").innerHTML = details.name;
+
+
+            if (selectedCounty) {
+              d3.select(selectedCounty).classed('lock', false);
+              selectedCountyTooltip(selectedCounty, false);
+            }
+
+            toggleCountyTooltip(this, false);
+            selectedCounty = this;
+            d3.select(selectedCounty).classed('lock', true);
+            selectedCountyTooltip(selectedCounty, true);
+
+            
+            console.log("hello world!");
          });
   }
 

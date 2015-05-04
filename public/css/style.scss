@@ -21,21 +21,26 @@ a {
       fill: blue;
     }
 
+    // 
+
     &:hover, &.hover {
       fill: red;  
+    }
+
+    &.lock {
+      fill: green;
+      //pointer-events:none;
     }
   }
 }
 
-#population {
-  path {
-    pointer-events:none;
-  }
+.selected-county-tooltip {
+  position: relative;
+  height: 20px;
+  // display: inline-block;
+  //pointer-events:none;
 }
 
-#countyname {
-  text: "test";
-}
 
 .county-tooltip {
   position: relative;
@@ -43,6 +48,8 @@ a {
   // display: inline-block;
   pointer-events:none;
 }
+
+
 
 .axis line,
 .axis path {

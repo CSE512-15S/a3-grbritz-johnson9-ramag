@@ -16,12 +16,12 @@ a {
     fill: blue; }
   #map path:hover, #map path.hover {
     fill: red; }
+  #map path.lock {
+    fill: green; }
 
-#population path {
-  pointer-events: none; }
-
-#countyname {
-  text: "test"; }
+.selected-county-tooltip {
+  position: relative;
+  height: 20px; }
 
 .county-tooltip {
   position: relative;
