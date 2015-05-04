@@ -81,11 +81,14 @@ function IncomeChart(countyData) {
           .attr("class", "y axis")
           .call(yAxis)
           .append("text")
+          .style("text-anchor", "end")
+          .style("font-size", "10px")
           .attr("transform", "rotate(-90)")
           .attr("y", 6)
-          .attr("dy", ".71em")
-          .style("text-anchor", "end")
-          .text("Income");
+          .attr("dy", ".71em");
+      svg.selectAll('.y.axis')
+          .selectAll('.tick')
+          .style('font-size', '11px')
 
       var data1 = [];
       for (i = 0; i < 6; i++) {
