@@ -65,8 +65,6 @@ function StateChart (datasetCache) {
     var details = self.datasetCache['countyCodes'][countyId];
 
     if (showToolTip) {
-      console.log("selectedCounty");
-      console.log(details.name);
       $(".selected-county-tooltip").css(tooltipPosition)
                           .text(details.name)
                           .css('visibility', 'visible');
@@ -154,9 +152,6 @@ function StateChart (datasetCache) {
             selectedCounty = this;
             d3.select(selectedCounty).classed('lock', true);
             selectedCountyTooltip(selectedCounty, true);
-
-            
-            console.log("hello world!");
          });
   }
 

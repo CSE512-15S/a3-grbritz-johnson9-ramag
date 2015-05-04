@@ -25,16 +25,16 @@ block content
 				h3 Education
 				div#options
 					label
-						input.radioButton(type="radio", name="gender_filter", value="1" checked=true) 
-						| Overall Population
+						input.educationToggle(type="radio", name="gender_filter", value="1" checked=true) 
+						| Total
 					br
 					label
-						input.radioButton(type="radio", name="gender_filter", value="0") 
-						| Breakdown by Gender
+						input.educationToggle(type="radio", name="gender_filter", value="0") 
+						| By Gender
 				.row
-					.col-sm-4#education
-					.col-sm-4#femaleEducation
-					.col-sm-4#maleEducation
+					.col-sm-4.education-chart#education
+					.col-sm-4.education-chart#femaleEducation
+					.col-sm-4.education-chart#maleEducation
 				h3 Population
 				.row
 					.col-sm-12#population

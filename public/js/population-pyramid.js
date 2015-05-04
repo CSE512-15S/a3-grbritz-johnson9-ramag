@@ -59,7 +59,6 @@ function PopolationPyramid (countyData) {
 
     var pointA = regionWidth,
     pointB = width - regionWidth;
-    console.log(countyData);
 
     var malePop = d3.sum(countyData['male']['population'], function(d) { return d.value; });
     var femalePop = d3.sum(countyData['female']['population'], function(d) { return d.value; });
@@ -155,8 +154,6 @@ function PopolationPyramid (countyData) {
       .attr("transform", function(d) {
           return "rotate(-65)";
       });
-
-    console.log(countyData['male']['population']);
     
     // DRAW BARS
     leftBarGroup.selectAll('.bar.left')

@@ -9,7 +9,7 @@ function EducationChart(countyData, gender) {
     genderData = countyData['male']['education'];
   } else {
     // ??
-    alert(gender);
+    console.error("EducationChart - unknown gender code: ", gender);
   }
   var margin = {top: 10, right: 10, bottom: 10, left: 10};
   var width = 300 - margin.left - margin.right, 
@@ -18,7 +18,7 @@ function EducationChart(countyData, gender) {
 
   var radius = Math.min(width, height) / 2;
   var donutWidth = 55;
-  var color = d3.scale.category20b(); // TODO should this be a ordinal scale? can't figure out how to do it
+  var color = d3.scale.category10(); // TODO should this be a ordinal scale? can't figure out how to do it
 
 
   // Private fns
@@ -86,8 +86,8 @@ function EducationChart(countyData, gender) {
         .attr('y', legendRectSize - legendSpacing)
         .text(function(d) {
           var allEduData = genderData;
-          console.log(d);
-          console.log(allEduData);
+          // console.log(d);
+          // console.log(allEduData);
           getElement = function(data, value){
             for (var i = 0; i < data.length; i++) {
               if(data[i].id === value){
