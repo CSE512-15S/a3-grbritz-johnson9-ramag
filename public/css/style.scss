@@ -40,7 +40,7 @@ a {
   position: relative;
   height: 20px;
   // display: inline-block;
-  //pointer-events:none;
+  pointer-events:none;
 }
 
 
@@ -60,33 +60,14 @@ a {
   stroke: #555;
 }
 
-.bar {
+.bar,.legend, .gbar {
   fill-opacity: 0.5;
 }
 
-.bar.left {
+.bar.left,.maleverticalbar {
   fill: steelblue;
 }
 
 .bar.right {
   fill: firebrick;
-}
-
-#education .legend {
-  font-size: 10pt;
-}
-
-#education {
-  padding-bottom: 20px;
-}
-
-#maleEducation, #femaleEducation {
-  display: none;
-}
-
-#options {
-  margin: 10px;
-  input {
-    padding: 5px;
-  }
 }

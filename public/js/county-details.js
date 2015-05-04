@@ -18,6 +18,9 @@ function CountyDetails(educationData) {
     var popEducationChart = EducationChart(educationData, 2);
     popEducationChart('#maleEducation');
 
+    var popIncomeChart = IncomeChart(educationData);
+    popIncomeChart('#income');
+
     // createPopulationPyramid(countyId, datasetCache['educationData']);
     $(selector).removeClass('hide');
 
