@@ -11,7 +11,8 @@ a {
 #map path {
   fill: #ccc;
   stroke: #fff;
-  stroke-width: .5px; }
+  stroke-width: .5px;
+  cursor: pointer; }
   #map path.selected {
     fill: blue; }
   #map path:hover, #map path.hover {

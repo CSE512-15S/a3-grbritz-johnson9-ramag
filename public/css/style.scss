@@ -16,6 +16,8 @@ a {
     fill: #ccc;
     stroke: #fff;
     stroke-width: .5px;
+
+    cursor: pointer;
   
     &.selected {
       fill: blue;
