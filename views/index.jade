@@ -21,12 +21,22 @@ block content
 			.col-sm-7#county-details.hide
 				.row
 					.col-sm-12#countyname
+				h3 Education
+				div#options
+					label
+						input.radioButton(type="radio", name="gender_filter", value="1" checked=true) 
+						| Overall Population
+					br
+					label
+						input.radioButton(type="radio", name="gender_filter", value="0") 
+						| Breakdown by Gender
+				.row
+					.col-sm-4#education
+					.col-sm-4#femaleEducation
+					.col-sm-4#maleEducation
 				h3 Population
 				.row
 					.col-sm-12#population
-				h3 Education
-				.row
-					.col-sm-12#education
 
 
 

@@ -9,12 +9,29 @@ function CountyDetails(educationData) {
     var popPyramidChart = PopolationPyramid(educationData);
     popPyramidChart('#population');
 
-    var popEducationChart = EducationChart(educationData);
+    var popEducationChart = EducationChart(educationData, 0);
     popEducationChart('#education');
 
+    var popEducationChart = EducationChart(educationData, 1);
+    popEducationChart('#femaleEducation');
+
+    var popEducationChart = EducationChart(educationData, 2);
+    popEducationChart('#maleEducation');
 
     // createPopulationPyramid(countyId, datasetCache['educationData']);
     $(selector).removeClass('hide');
+
+    $('.radioButton').change(function(){
+      if ("" + this.value === "" + 0) {
+        $('#education').hide();
+        $('#femaleEducation').show();
+        $('#maleEducation').show();
+      } else {
+        $('#education').show();
+        $('#femaleEducation').hide();
+        $('#maleEducation').hide();
+      }
+    });
   }
 
   return drawCharts;

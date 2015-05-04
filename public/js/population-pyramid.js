@@ -42,7 +42,6 @@ function PopolationPyramid (countyData) {
         .attr('x', legendRectSize + legendSpacing)
         .attr('y', legendRectSize - legendSpacing)
         .text(function(d) { return d; });
-
   }
     
   function draw(selector) {

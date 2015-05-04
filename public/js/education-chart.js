@@ -1,8 +1,25 @@
 
-function EducationChart(countyData) {
-  var width = 700, 
-      height = 300
+function EducationChart(countyData, gender) {
+  var genderData;
+  if(gender === 0) {
+    genderData = countyData['total']['education'];
+  } else if(gender === 1){
+    genderData = countyData['female']['education']
+  } else if(gender === 2){
+    genderData = countyData['male']['education'];
+  } else {
+    // ??
+    alert(gender);
+  }
+  var margin = {top: 10, right: 10, bottom: 10, left: 10};
+  var width = 300 - margin.left - margin.right, 
+      height = 300 - margin.top - margin.bottom,
       self = this;
+
+  var radius = Math.min(width, height) / 2;
+  var donutWidth = 55;
+  var color = d3.scale.category20b(); // TODO should this be a ordinal scale? can't figure out how to do it
+
 
   // Private fns
   function translation(x,y) {
@@ -12,142 +29,78 @@ function EducationChart(countyData) {
   function draw(selector) {
     // Clear old svg
     $(selector).find('svg').remove();
-    var margin = {
-      top: 20,
-      right: 10,
-      bottom: 70,
-      left: 30,
-      middle: 28
-    };
-
-    var regionWidth = (width/2) - margin.middle;
-
-    var pointA = regionWidth,
-    pointB = width - regionWidth;
-    console.log(countyData);
-
-    var malePop = d3.sum(countyData['male']['education'], function(d) { return d.value; });
-    var femalePop = d3.sum(countyData['female']['education'], function(d) { return d.value; });
-    var totalPopulation = malePop + femalePop;
-    
-    console.log("hi");
-    
-    // find the maximum data value on either side
-    //  since this will be shared by both of the x-axes
-    var maxValue = Math.max(
-      d3.max(countyData['male']['education'], function(d) { return d.value; }),
-      d3.max(countyData['female']['education'], function(d) { return d.value; })
-    );
-
-
-    var svg = d3.select(selector).append('svg')
-      .attr('width', margin.left + width + margin.right)
-      .attr('height', margin.top + height + margin.bottom)
+    var svg = d3.select(selector)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
       .append('g')
-      .attr('class', 'inner-region')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      .attr('transform', translation(width/2, height/2));
 
-    // alert("maxValue = " + maxValue);
-
-    // the xScale goes from 0 to the width of a region
-    //  it will be reversed for the left x-axis
-    var xScale = d3.scale.linear()
-      .domain([0, maxValue])
-      .range([0, regionWidth])
-      .nice();
-
-    var yScale = d3.scale.ordinal()
-      .domain(countyData['male']['education'].map(function(d) { return d.id; }))
-      .rangeRoundBands([height,0], 0.1);
-
-    var yAxisLeft = d3.svg.axis()
-      .scale(yScale)
-      .orient('right')
-      .tickSize(4,0)
-      .tickPadding(margin.middle - 4);
-
-    var yAxisRight = d3.svg.axis()
-      .scale(yScale)
-      .orient('left')
-      .tickSize(4,0)
-      .tickFormat('');
-
-    var xAxisRight = d3.svg.axis()
-      .scale(xScale)
-      .orient('bottom')
-      .tickFormat(d3.format(''));
-
-    var xAxisLeft = d3.svg.axis()
-      // REVERSE THE X-AXIS SCALE ON THE LEFT SIDE BY REVERSING THE RANGE
-      .scale(xScale.copy().range([pointA, 0]))
-      .orient('bottom')
-      .tickFormat(d3.format(''));
-
-    // MAKE GROUPS FOR EACH SIDE OF CHART
-    // scale(-1,1) is used to reverse the left side so the bars grow left instead of right
-    var leftBarGroup = svg.append('g')
-      .attr('transform', translation(pointA, 0) + 'scale(-1,1)');
-    var rightBarGroup = svg.append('g')
-      .attr('transform', translation(pointB, 0));
-
-    // DRAW AXES
-    svg.append('g')
-      .attr('class', 'axis y left')
-      .attr('transform', translation(pointA, 0))
-      .call(yAxisLeft)
-      .selectAll('text')
-      .style('text-anchor', 'middle');
-
-    svg.append('g')
-      .attr('class', 'axis y right')
-      .attr('transform', translation(pointB, 0))
-      .call(yAxisRight);
-
-    svg.append('g')
-      .attr('class', 'axis x left')
-      .attr('transform', translation(0, height))
-      .call(xAxisLeft)
-      .selectAll("text")  
-      .style("text-anchor", "end")
-      .attr("dx", "-.8em")
-      .attr("dy", ".15em")
-      .attr("transform", function(d) {
-          return "rotate(-65)";
-      });
-
-    svg.append('g')
-      .attr('class', 'axis x right')
-      .attr('transform', translation(pointB, height))
-      .call(xAxisRight).selectAll("text")  
-      .style("text-anchor", "end")
-      .attr("dx", "-.8em")
-      .attr("dy", ".15em")
-      .attr("transform", function(d) {
-          return "rotate(-65)";
-      });
-
-    console.log(countyData['male']['education']);
+    svg.append("g").attr("class", "labels");
     
-    // DRAW BARS
-    leftBarGroup.selectAll('.bar.left')
-      .data(countyData['male']['education'])
-      .enter().append('rect')
-      .attr('class', 'bar left')
-      .attr('x', 0)
-      .attr('y', function(d) { return yScale(d.id); })
-      .attr('width', function(d) { return xScale(d.value); })
-      .attr('height', yScale.rangeBand());
+    var arc = d3.svg.arc()
+      .innerRadius(radius - donutWidth)
+      .outerRadius(radius);
 
-    rightBarGroup.selectAll('.bar.right')
-      .data(countyData['female']['education'])
-      .enter().append('rect')
-      .attr('class', 'bar right')
-      .attr('x', 0)
-      .attr('y', function(d) { return yScale(d.id); })
-      .attr('width', function(d) { return xScale(d.value); })
-      .attr('height', yScale.rangeBand());
+    var pie = d3.layout.pie()
+      .value(function(d) { return d.value; })
+      .sort(null);
+
+    var path = svg.selectAll('path')
+      .data(pie(genderData))
+      .enter()
+      .append('path')
+      .attr('d', arc)
+      .attr('fill', function(d, i) { 
+        return color(d.data.id);
+      });
+
+      drawLabels(svg);
   }
   
+  function drawLabels (svg) { // currently the legend is in an awkward place, TODO make better
+      var legendRectSize = 18;
+      var legendSpacing = 4;
+     
+      var legend = svg.selectAll('.legend')
+        .data(color.domain())
+        .enter()
+        .append('g')
+        .attr('class', 'legend')
+        .attr('transform', function(d, i) {
+          var height = legendRectSize + legendSpacing;
+          var offset =  height * color.domain().length / 2;
+          var horz = -2 * legendRectSize;
+          var vert = i * height - offset;
+          return translation(horz, vert);
+        });
+
+      legend.append('rect')
+        .attr('width', legendRectSize)
+        .attr('height', legendRectSize)
+        .style('fill', color)
+        .style('stroke', color);
+
+      legend.append('text')
+        .attr('x', legendRectSize + legendSpacing)
+        .attr('y', legendRectSize - legendSpacing)
+        .text(function(d) {
+          var allEduData = genderData;
+          console.log(d);
+          console.log(allEduData);
+          getElement = function(data, value){
+            for (var i = 0; i < data.length; i++) {
+              if(data[i].id === value){
+                return data[i];
+              }
+            };
+            return -1;
+          };
+
+          var curVal = getElement(allEduData, d).value;
+          return d + ": " + curVal + "%";
+        });
+  }
 
   draw.width = function(val) {
     if (!arguments.length) return width;

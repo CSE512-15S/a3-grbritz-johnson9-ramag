@@ -42,3 +42,17 @@ a {
 
 .bar.right {
   fill: firebrick; }
+
+#education .legend {
+  font-size: 10pt; }
+
+#education {
+  padding-bottom: 20px; }
+
+#maleEducation, #femaleEducation {
+  display: none; }
+
+#options {
+  margin: 10px; }
+  #options input {
+    padding: 5px; }
