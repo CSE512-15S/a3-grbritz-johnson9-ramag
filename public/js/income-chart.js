@@ -114,7 +114,9 @@ function IncomeChart(countyData) {
           .data(ageNames.slice())
           .enter().append("g")
           .attr("class", "legend")
-          .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+          .attr("transform", function(d, i) { return "translate(-400," + i * 20 + ")"; })
+          //.attr("transform", "translate(" + 0 + "," + 0 + ")")
+          ;
 
       legend.append("rect")
           .attr("x", width - 18)
