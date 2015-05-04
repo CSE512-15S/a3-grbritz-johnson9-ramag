@@ -16,8 +16,8 @@ function EducationChart(countyData, gender) {
       height = 300 - margin.top - margin.bottom,
       self = this;
 
-  var radius = Math.min(width, height) / 1.5;
-  var donutWidth = 55;
+  var radius = Math.min(width, height) / 1.75;
+  var donutWidth = 25;
   var color = d3.scale.category10(); // TODO should this be a ordinal scale? can't figure out how to do it
 
 
