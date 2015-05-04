@@ -114,6 +114,9 @@ function StateChart (datasetCache) {
             // alert(cid);
             var countyDetails = CountyDetails(educationDataForCounty(cid));
             countyDetails('#county-details');
+            
+            var details = self.datasetCache['countyCodes'][cid];
+            document.getElementById("countyname").innerHTML = details.name;
          });
   }
 

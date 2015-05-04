@@ -20,6 +20,9 @@ a {
 #population path {
   pointer-events: none; }
 
+#countyname {
+  text: "test"; }
+
 .county-tooltip {
   position: relative;
   height: 20px;
