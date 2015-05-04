@@ -3,6 +3,22 @@
  */
 function CountyDetails(educationData) {
   var self = this;
+  
+  // Private fns
+  function educationToggle() {
+    if (! $(this).is(":checked")) return;
+    
+    if (this.value === "0") {
+      $('#education').hide();
+      $('#femaleEducation').show();
+      $('#maleEducation').show();
+    } else {
+      $('#education').show();
+      $('#femaleEducation').hide();
+      $('#maleEducation').hide();
+    }
+  }
+
   function drawCharts(selector) {
     $(selector).addClass('hide');
 
@@ -21,27 +37,14 @@ function CountyDetails(educationData) {
     var popIncomeChart = IncomeChart(educationData);
     popIncomeChart('#income');
 
-    // createPopulationPyramid(countyId, datasetCache['educationData']);
-    $(selector).removeClass('hide');
-
-    // $('.education-chart').hide();
+    
     $('.educationToggle').each(educationToggle);
     $('.educationToggle').change(educationToggle);
+
+    $(selector).removeClass('hide');
   }
 
-  function educationToggle() {
-    if (! $(this).is(":checked")) return;
-    
-    if (this.value === "0") {
-      $('#education').hide();
-      $('#femaleEducation').show();
-      $('#maleEducation').show();
-    } else {
-      $('#education').show();
-      $('#femaleEducation').hide();
-      $('#maleEducation').hide();
-    }
-  }
+
 
   return drawCharts;
 }

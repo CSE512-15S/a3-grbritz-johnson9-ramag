@@ -12,8 +12,11 @@ We were highly interested in geographic data and elements of the US Census. Usin
 
 ## Storyboard
   1. Map of Washington with county outlines displayed. County tiles are clickable.
+  ![Landing Page](./storyboard-images/storyboard-1.jpg)
   2. When a county is selected, the user is presented with data on county population, educational attainments, and median income levels by education category. These statistics can be viewed in aggregate, or split by gender.
+  ![County Data](./storyboard-images/storyboard-2.jpg)
   3. When the user selects a second county, she can see a comparison between the two counties.
+  ![County Comparison](./storyboard-images/storyboard-3.jpg)
 
 
 ### Changes between final version and storyboard
