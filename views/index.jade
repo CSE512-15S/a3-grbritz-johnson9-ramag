@@ -19,27 +19,30 @@ block content
 				div.county-tooltip
 				div.selected-county-tooltip
 				#map.loading
-			.col-sm-7#county-details.hide
+		.row#county-details.hide
+			.col-sm-12
+				h2#countyname
 				.row
-					.col-sm-12#countyname
-				h3 Education
-				div#options
-					label
-						input.educationToggle(type="radio", name="gender_filter", value="1" ) 
-						| Total
-					br
-					label
-						input.educationToggle(type="radio", name="gender_filter", value="0") 
-						| By Gender
+					.col-sm-6
+						h3 Education
+						div#options
+							label
+								input.educationToggle(type="radio", name="gender_filter", value="1", checked="true" ) 
+								|  Total
+							br
+							label
+								input.educationToggle(type="radio", name="gender_filter", value="0") 
+								|  By Gender
+						.row
+							.col-sm-4.education-chart#education
+							.col-sm-4.education-chart#femaleEducation
+							.col-sm-4.education-chart#maleEducation		
+					.col-sm-6
+						h3 Population
+						#population
 				.row
-					.col-sm-4.education-chart#education
-					.col-sm-4.education-chart#femaleEducation
-					.col-sm-4.education-chart#maleEducation
-				h3 Population
-				.row
-					.col-sm-12#population
-				h3 Income
-				.row
-					.col-sm-12#income
+					.col-sm-12
+						h3 Income
+						#income
 
 

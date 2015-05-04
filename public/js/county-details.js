@@ -37,7 +37,7 @@ function CountyDetails(educationData) {
     var popIncomeChart = IncomeChart(educationData);
     popIncomeChart('#income');
 
-    
+    $('.education-chart').hide()
     $('.educationToggle').each(educationToggle);
     $('.educationToggle').change(educationToggle);
 
