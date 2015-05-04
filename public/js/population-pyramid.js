@@ -1,12 +1,48 @@
 
 function PopolationPyramid (countyData) {
-  var width = 700, 
-      height = 300
+  var width = 500, 
+      height = 200
       self = this;
 
   // Private fns
   function translation(x,y) {
     return 'translate(' + x + ',' + y + ')';
+  }
+
+  function createLegends (svg) {
+    var legendRectSize = 20;
+    var legendSpacing = 4;
+    var dataPoints = ['Male', 'Female'];
+    var colors = ['steelblue', 'firebrick'];
+    var legend = svg.selectAll('.legend')
+      .data(dataPoints)
+      .enter()
+      .append('g')
+      .attr('class', 'legend')
+      .attr('transform', function(d, i) {
+        var height = legendRectSize + legendSpacing;
+        var offset = height * dataPoints.length / 2;
+        var horz = legendRectSize-20;
+        var vert = i * height + 5 - offset;
+        return translation(horz, vert);
+      });
+
+      legend.append('rect')
+        .attr('width', legendRectSize)
+        .attr('height', legendRectSize)
+        .style('fill', function(d) {
+          return colors[dataPoints.indexOf(d)];
+        })
+        .style('stroke', function(d) {
+          return colors[dataPoints.indexOf(d)];
+        })
+        .style("opacity", 0.5);
+
+      legend.append('text')
+        .attr('x', legendRectSize + legendSpacing)
+        .attr('y', legendRectSize - legendSpacing)
+        .text(function(d) { return d; });
+
   }
     
   function draw(selector) {
@@ -30,8 +66,6 @@ function PopolationPyramid (countyData) {
     var femalePop = d3.sum(countyData['female']['population'], function(d) { return d.value; });
     var totalPopulation = malePop + femalePop;
     
-    console.log(totalPopulation);
-    
     // find the maximum data value on either side
     //  since this will be shared by both of the x-axes
     var maxValue = Math.max(
@@ -45,8 +79,6 @@ function PopolationPyramid (countyData) {
       .append('g')
       .attr('class', 'inner-region')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-    // alert("maxValue = " + maxValue);
 
     // the xScale goes from 0 to the width of a region
     //  it will be reversed for the left x-axis
@@ -145,6 +177,10 @@ function PopolationPyramid (countyData) {
       .attr('y', function(d) { return yScale(d.id); })
       .attr('width', function(d) { return xScale(d.value); })
       .attr('height', yScale.rangeBand());
+
+    // CREATE LABELS
+    createLegends(svg);
+
   }
   
 
