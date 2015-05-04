@@ -9,6 +9,9 @@ function CountyDetails(educationData) {
     var popPyramidChart = PopolationPyramid(educationData);
     popPyramidChart('#population');
 
+    var popEducationChart = EducationChart(educationData);
+    popEducationChart('#education');
+
 
     // createPopulationPyramid(countyId, datasetCache['educationData']);
     $(selector).removeClass('hide');

@@ -17,6 +17,9 @@ a {
   #map path:hover, #map path.hover {
     fill: red; }
 
+#population path {
+  pointer-events: none; }
+
 .county-tooltip {
   position: relative;
   height: 20px;
