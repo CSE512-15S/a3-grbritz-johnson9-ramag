@@ -21,16 +21,31 @@ We were highly interested in geographic data and elements of the US Census. Usin
   -  Comparing two counties is not yet implemented.
 
 ## Development Process
-  - __Graeme Britz:__ Was heavily involved with early iterations of development and setting up project architecture. He was primarily responsible for displaying and rendering the maps, finding and processing the geo-data, processing the educational data, and getting the graph components to talk to eachother. He also is the main author for this writeup.
-  - __Rama Gokhale:__ Found the educational dataset for us to use and developed two of the three graphs seen when clicking on a county. She also drew the storyboard images.
-  - __Johnson Goh:__ Helped find the geo-data and was involved with early iterations of development and exploration. He developed the income graphic seen when clicking on a county and made some improvements to the map interface.
+  - __Graeme Britz:__ Was heavily involved with early iterations of development and setting up project architecture. He was primarily responsible for displaying and rendering the maps, finding and processing the geo-data, processing the educational data, and getting the graph components to talk to eachother. He also is the main author for this writeup. _Estimated time worked, 20-25 hours_
+  - __Rama Gokhale:__ Found the educational dataset for us to use and developed two of the three graphs seen when clicking on a county. She also drew the storyboard images. _Estimated time worked, 17-20 hours_
+  - __Johnson Goh:__ Helped find the geo-data and was involved with early iterations of development and exploration. He developed the income graphic seen when clicking on a county and made some improvements to the map interface. _Estimated time worked, 10-15 hours_
 
-
+#### Inspecting different components
+This project was built as a front-end heavy express.js application. In case the reader is not familiar with express.js, this means that the main parts of interest would be found in the `public` folder and in the `views` folder. Additionally, the `data-processing` folder contains scripts used to transform datasets. The datasets of interest can be found in `public/datasets/reference` and `public/datasets/topojson`.
 
 ## Usage
+This project can be seen live [here](https://datavis-hw3.herokuapp.com/). If that link is down for some reason, below are instructions for building locally.
+
+  1. Clone this repository into your local folder.
+  2. Run `npm install && bower install`
+  3. Run `grunt`
+  4. The application should now be available at `localhost:3000`
+
+
+### Dependencies
+  -  node.js and npm
+  -  bower.js
+  -  grunt.js
+
+__Note:__ Each of these tools should be available on your shell path to work with the instructions above.
 
 
 ## Authors
-Graeme Britz (grbritz@uw.edu)
-Rama Gokhale (ramag@uw.edu)
-Johnson Goh (johnson9@uw.edu)
+  - Graeme Britz (grbritz@uw.edu)
+  - Rama Gokhale (ramag@uw.edu)
+  - Johnson Goh (johnson9@uw.edu)
