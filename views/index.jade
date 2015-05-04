@@ -19,13 +19,15 @@ block content
 				div.county-tooltip
 				div.selected-county-tooltip
 				#map.loading
-			.col-sm-7#county-details.hide
+		.row#county-details.hide
+			.col-sm-12
+				h2#countyname
 				.row
 					h2#countyname
 				h3 Education
 				div#options
 					label
-						input.educationToggle(type="radio", name="gender_filter", value="1" ) 
+						input.educationToggle(type="radio", name="gender_filter", value="1" checked="true" ) 
 						| Total
 					label
 						input.educationToggle(type="radio", name="gender_filter", value="0") 
@@ -42,5 +44,3 @@ block content
 				h3 Income
 				.row
 					.col-sm-12#income
-
-

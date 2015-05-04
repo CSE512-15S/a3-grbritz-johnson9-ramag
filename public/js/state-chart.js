@@ -4,7 +4,7 @@
 
 function StateChart (datasetCache) {
   var width = 480,
-      height = 500,
+      height = 300,
       mapData = null,
       self = this;
       selectedCounty = null;
