@@ -25,13 +25,19 @@ function CountyDetails(educationData) {
     var popPyramidChart = PopolationPyramid(educationData);
     popPyramidChart('#population');
 
-    var popEducationChart = EducationChart(educationData, 0);
+    var popEducationChart = EducationChart(educationData, 0)
+                                .width(500)
+                                .height(500);
     popEducationChart('#education');
 
-    var popEducationChart = EducationChart(educationData, 1);
+    var popEducationChart = EducationChart(educationData, 1)
+                                .width(500)
+                                .height(500);
     popEducationChart('#femaleEducation');
 
-    var popEducationChart = EducationChart(educationData, 2);
+    var popEducationChart = EducationChart(educationData, 2)
+                                .width(500)
+                                .height(500);
     popEducationChart('#maleEducation');
 
     var popIncomeChart = IncomeChart(educationData);

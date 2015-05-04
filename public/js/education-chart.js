@@ -16,7 +16,7 @@ function EducationChart(countyData, gender) {
       height = 300 - margin.top - margin.bottom,
       self = this;
 
-  var radius = Math.min(width, height) / 2;
+  var radius = Math.min(width, height) / 1.5;
   var donutWidth = 55;
   var color = d3.scale.category10(); // TODO should this be a ordinal scale? can't figure out how to do it
 
@@ -70,7 +70,7 @@ function EducationChart(countyData, gender) {
         .attr('transform', function(d, i) {
           var height = legendRectSize + legendSpacing;
           var offset =  height * color.domain().length / 2;
-          var horz = -2 * legendRectSize;
+          var horz = -5 * legendRectSize;
           var vert = i * height - offset;
           return translation(horz, vert);
         });
