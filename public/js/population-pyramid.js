@@ -63,6 +63,10 @@ function PopolationPyramid (countyData) {
     var malePop = d3.sum(countyData['male']['population'], function(d) { return d.value; });
     var femalePop = d3.sum(countyData['female']['population'], function(d) { return d.value; });
     var totalPopulation = malePop + femalePop;
+
+    document.getElementById("poptotal").innerHTML = "Total population: " + totalPopulation;
+
+
     
     // find the maximum data value on either side
     //  since this will be shared by both of the x-axes
