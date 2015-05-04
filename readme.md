@@ -1,13 +1,13 @@
 
 # Washington Population and Educational Attainment
-This map can be used to view population and educatioanl statistics about different counties in Washington state. Click on a county to view:
+This map can be used to view population and educational statistics about different counties in Washington state. Click on a county to view:
 
   -  Its population broken down by age group and gender
   -  The percentage of the population by educational achievement category (e.g. bachelor's degree, high school diploma)
-  -  The median income per educational achievment category.
+  -  The median income per educational achievement category
 
 ## Data Domain
-We were highly interested in geographic data and elements of the US Census. Using a map is an intuitive way to filter multidimensional data when applicable. Furthermore, it is an ideal medium for encouraging civic awareness as people can relate abstract data to physical areas that they are familiar with. We combined geojson and topojson files from J. Goodall's [US Maps Repo](https://github.com/jgoodall/us-maps) with data from the [2013 US Census American Community Survey on Educational Attainment](http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_13_5YR_S1501&src=pt).
+We were highly interested in geographic data and elements of the US Census. Using a map is an intuitive way to filter and display multidimensional data when applicable. Furthermore, it is an ideal medium for encouraging civic awareness as people can relate abstract data to physical areas that they are familiar with. We combined geojson and topojson files from J. Goodall's [US Maps Repo](https://github.com/jgoodall/us-maps) with data from the [2013 US Census American Community Survey on Educational Attainment](http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=ACS_13_5YR_S1501&src=pt) to produce the visualizations in this project.
 
 
 ## Storyboard
@@ -25,11 +25,16 @@ We were highly interested in geographic data and elements of the US Census. Usin
   - __Rama Gokhale:__ Found the educational dataset for us to use and developed two of the three graphs seen when clicking on a county. She also drew the storyboard images. _Estimated time worked, 17-20 hours_
   - __Johnson Goh:__ Helped find the geo-data and was involved with early iterations of development and exploration. He developed the income graphic seen when clicking on a county and made some improvements to the map interface. _Estimated time worked, 10-15 hours_
 
+We were all surprised at how much time was spent finding appropriate data and getting it into the correct format. Around two-thirds of the total time spent was in finding and processing the data and iteratively exploring what could be done with it. The remaining time was spent on producing the final visualizations submitted. 
+
+With more time, we would have liked to implement county comparisons. Additionally, we would have liked to explore using chloropleths to display this data in a different way.
+
+
 #### Inspecting different components
 This project was built as a front-end heavy express.js application. In case the reader is not familiar with express.js, this means that the main parts of interest would be found in the `public` folder and in the `views` folder. Additionally, the `data-processing` folder contains scripts used to transform datasets. The datasets of interest can be found in `public/datasets/reference` and `public/datasets/topojson`.
 
 ## Usage
-This project can be seen live [here](https://datavis-hw3.herokuapp.com/). If that link is down for some reason, below are instructions for building locally.
+This project can be seen live [here](https://datavis-hw3.herokuapp.com/). If that link is down for some reason, below are instructions for building locally. _These instructions have only tested on OSX_
 
   1. Clone this repository into your local folder.
   2. Run `npm install && bower install`
@@ -37,7 +42,7 @@ This project can be seen live [here](https://datavis-hw3.herokuapp.com/). If tha
   4. The application should now be available at `localhost:3000`
 
 
-### Dependencies
+### Additional Dependencies
   -  node.js and npm
   -  bower.js
   -  grunt.js
@@ -45,7 +50,7 @@ This project can be seen live [here](https://datavis-hw3.herokuapp.com/). If tha
 __Note:__ Each of these tools should be available on your shell path to work with the instructions above.
 
 
-## Authors
+## Contributors
   - Graeme Britz (grbritz@uw.edu)
   - Rama Gokhale (ramag@uw.edu)
   - Johnson Goh (johnson9@uw.edu)
